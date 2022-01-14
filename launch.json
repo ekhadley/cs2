@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Xd",
+            "request": "launch",
+            "mainClass": "Xd",
+            "projectName": "wgmnjava_e83feeb0"
+        },
+        {
+            "type": "java",
+            "name": "Xd",
+            "request": "launch",
+            "mainClass": "my.Xd",
+            "args": "",
+            "vmArgs": "-Dsome=arg"
+        }
+    ]
+}
