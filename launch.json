@@ -3,18 +3,10 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Launch Xd",
+            "name": "Launch",
             "request": "launch",
-            "mainClass": "Xd",
+            "mainClass": "main",
             "projectName": "wgmnjava_e83feeb0"
-        },
-        {
-            "type": "java",
-            "name": "Xd",
-            "request": "launch",
-            "mainClass": "my.Xd",
-            "args": "",
-            "vmArgs": "-Dsome=arg"
         }
     ]
 }
