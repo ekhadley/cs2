@@ -1,8 +1,8 @@
 
 
 
-class main{
-    public static void xd(String[] args) {
+class lab1{
+    public static void main(String[] args) {
         System.out.println("nvm we coo"); 
     }
 }
