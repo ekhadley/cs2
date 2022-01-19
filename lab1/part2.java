@@ -1,6 +1,7 @@
-public class lab1 {
+package lab1;
+public class part2 {
     public static void main(String[] args) {
-        makeImage(30);
+        makeImage(15);
         }        
         static void makeImage(int scale){
             makeLine(scale, true, false);
@@ -60,12 +61,21 @@ public class lab1 {
         static void makeFace(int x){
             for(int i = 0; i<x/2; i++){
                 String line = "|";
-                for(int j=0; j < x; j++){
-                    line += " ";
+
+                if(x<11){
+                    for(int j=0; j<x; j++){
+                        line += "   ";
+                    }
                 }
-                //line += "|";
-                for(int j=0; j<x; j++){
-                    line += "  ";
+                else{
+                    int p = (3*x-22)/2;
+                    for(int j=0; j<p; j++){
+                        line += " ";
+                    }
+                    line += "Building Java Programs ";
+                    for(int j=0; j<p; j++){
+                        line += " ";
+                    }
                 }
                 line += "|";
                 
@@ -76,5 +86,4 @@ public class lab1 {
             System.out.println(line);
             }
         }
-    
 }

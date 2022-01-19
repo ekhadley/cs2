@@ -1,0 +1,54 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch part1",
+            "request": "launch",
+            "mainClass": "lab1.part1",
+            "projectName": "wgmnjava_e83feeb0"
+        },
+        {
+            "type": "java",
+            "name": "Launch part2",
+            "request": "launch",
+            "mainClass": "lab1.part2",
+            "projectName": "wgmnjava_e83feeb0"
+        },
+        {
+            "type": "java",
+            "name": "Launch part3",
+            "request": "launch",
+            "mainClass": "lab1.part3",
+            "projectName": "wgmnjava_e83feeb0"
+        },
+        {
+            "type": "java",
+            "name": "Launch part8",
+            "request": "launch",
+            "mainClass": "lab1.part8",
+            "projectName": "wgmnjava_e83feeb0"
+        },
+        {
+            "type": "java",
+            "name": "Launch lab1",
+            "request": "launch",
+            "mainClass": "lab1.lab1",
+            "projectName": "wgmnjava_e83feeb0"
+        },
+        {
+            "type": "java",
+            "name": "Launch lab1",
+            "request": "launch",
+            "mainClass": "lab1",
+            "projectName": "wgmnjava_e83feeb0"
+        },
+        {
+            "type": "java",
+            "name": "Launch",
+            "request": "launch",
+            "mainClass": "main",
+            "projectName": "wgmnjava_e83feeb0"
+        }
+    ]
+}
