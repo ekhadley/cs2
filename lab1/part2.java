@@ -1,7 +1,8 @@
 package lab1;
 public class part2 {
     public static void main(String[] args) {
-        makeImage(15);
+        int scale = 20;
+        makeImage(scale);
         }        
         static void makeImage(int scale){
             makeLine(scale, true, false);
@@ -62,7 +63,7 @@ public class part2 {
             for(int i = 0; i<x/2; i++){
                 String line = "|";
 
-                if(x<11){
+                if(x<10){
                     for(int j=0; j<x; j++){
                         line += "   ";
                     }
