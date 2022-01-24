@@ -4,11 +4,11 @@ import java.util.Scanner;
 public class part1 {
 
 
-    static processDate(){
+    static processDate(String prompt){
         ArrayList<Integer> daysInMonth = new ArrayList<Integer>(Arrays.asList(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31));
 
         var input = new Scanner(System.in);
-        System.out.println("Enter your birthdate (D/M/YYYY):");
+        System.out.println(prompt);
         String date = input.nextLine();
         String[] dates = date.split("/");
 
