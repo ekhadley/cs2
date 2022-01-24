@@ -1,14 +1,16 @@
 package lab2;
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class part1 {
 
 
-    static processDate(String prompt){
+    static int processDate(){
         ArrayList<Integer> daysInMonth = new ArrayList<Integer>(Arrays.asList(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31));
 
         var input = new Scanner(System.in);
-        System.out.println(prompt);
+        
         String date = input.nextLine();
         String[] dates = date.split("/");
 
@@ -29,7 +31,8 @@ public class part1 {
 
 
     public static void main(String[] args) {
-        processDate("What is the first birthday?");
+        System.out.println("What is the first birthday? (D/M/YY)" );
+        processDate();
 
     }
 }
