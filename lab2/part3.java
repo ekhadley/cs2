@@ -1,5 +1,4 @@
 package lab2;
-import java.time.Year;
 import java.util.Random;
 import java.util.Scanner;
 
