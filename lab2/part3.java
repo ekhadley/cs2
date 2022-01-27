@@ -13,6 +13,7 @@ public class part3 {
 
     public static void main(String[] args) {
         Boolean halt = true;
+        int guesses = 0;
         makeGuess();
         var input = new Scanner(System.in);
         String resp;
@@ -22,7 +23,7 @@ public class part3 {
 
             if(resp.equals("y")||resp.equals("n")){
                 if(resp.equals("y")){halt=false;}
-                else{makeGuess();}
+                else{makeGuess();guesses++;}
             }
             else{
                 System.out.println("Not recognized, please answer with (y/n):");
@@ -30,6 +31,6 @@ public class part3 {
 
         }while(halt);
         
-        System.out.println("I Win!");
+        System.out.println("Computer wins with "+guesses+" guesses.");
     }
 }
