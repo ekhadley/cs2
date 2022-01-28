@@ -3,8 +3,6 @@ package lab2;
 import java.util.*;
 
 public class part1 {
-
-
     static int processDate(String date){
         ArrayList<Integer> daysInMonth = new ArrayList<Integer>(Arrays.asList(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31));
 
@@ -44,10 +42,10 @@ public class part1 {
         int d2bd1 = daysUntil(now, bd1);
         int d2bd2 = daysUntil(now, bd2);
         if(d2bd1<d2bd2){
-            System.out.println("The first birthday is sooner, with " + d2bd1 + "days left. The second birthday has " + d2bd2 + "days to go.");
+            System.out.println("The first birthday is sooner, with " + d2bd1 + "days left. The second birthday has " + d2bd2 + " days to go.");
         }
         else{
-            System.out.println("The second birthday is sooner, with " + d2bd2 + "days left. The first birthday has " + d2bd1 + "days to go.");
+            System.out.println("The second birthday is sooner, with " + d2bd2 + "days left. The first birthday has " + d2bd1 + " days to go.");
         }
     }
     
