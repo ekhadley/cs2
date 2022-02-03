@@ -6,6 +6,13 @@
             "name": "Launch part1",
             "request": "launch",
             "mainClass": "lab3.part1",
+            "projectName": "wgmnjava_e83feeb0"
+        },
+        {
+            "type": "java",
+            "name": "Launch part1",
+            "request": "launch",
+            "mainClass": "lab3.part1",
             "projectName": "cs2_d4b8cf7a"
         },
         {
