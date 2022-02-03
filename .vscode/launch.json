@@ -3,6 +3,27 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch part4",
+            "request": "launch",
+            "mainClass": "lab3.part4",
+            "projectName": "wgmnjava_e83feeb0"
+        },
+        {
+            "type": "java",
+            "name": "Launch part3",
+            "request": "launch",
+            "mainClass": "lab3.part3",
+            "projectName": "wgmnjava_e83feeb0"
+        },
+        {
+            "type": "java",
+            "name": "Launch part2",
+            "request": "launch",
+            "mainClass": "lab3.part2",
+            "projectName": "wgmnjava_e83feeb0"
+        },
+        {
+            "type": "java",
             "name": "Launch part1",
             "request": "launch",
             "mainClass": "lab3.part1",
