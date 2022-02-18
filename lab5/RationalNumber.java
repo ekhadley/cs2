@@ -23,7 +23,7 @@ public class RationalNumber{
         return this.numer;
     }
     public String toString(){
-        if(denom<0){denom*=-1;numer*=-1;}
+        if(this.denom<0){this.denom*=-1;this.numer*=-1;}
 
         double ratio = this.numer/this.denom;
         if(ratio==numer){return "" + this.numer;}

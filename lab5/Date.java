@@ -1,5 +1,9 @@
 package lab5;
 
+import java.math.*;
+
+import javax.swing.plaf.TreeUI;
+
 public class Date {
     int year;
     int month;
@@ -12,6 +16,18 @@ public class Date {
         this.day = day;
     }
 
+    public String getDate(){
+        return "" + this.month + ", " + this.day + ", " + this.year;
+    }
+
+    public int absDate(Date date){
+        int absDate = date.day;
+        for(int i=0; i<date.month-1; i++){
+            absDate += daysPerMonth[i];
+        }
+        return absDate;
+    }
+
     public int yearlen(int year){
         boolean type1 = this.year%400 == 0 && this.year%100 == 0;
         boolean type2 = this.year%4 == 0 && this.year%100 != 0;
@@ -20,19 +36,15 @@ public class Date {
     }
 
     public void addDays(int inc){
-        int absDate = this.day;
+        int absDate = absDate(this);
         int yearlen = yearlen(this.year);
 
-        for(int i=0; i<this.month-1; i++){
-            absDate += daysPerMonth[i];
-        }
         absDate += inc;
 
         while(absDate>yearlen){
             yearlen = yearlen(this.year);
             absDate -= yearlen;
             this.year++;
-            System.out.println(this.year + ", " + yearlen);
         }
         
         for(int i = 0; absDate>daysPerMonth[i];i++){
@@ -42,7 +54,37 @@ public class Date {
         this.day = absDate;
     }
 
-    public String getDate(){
-        return "" + this.month + ", " + this.day + ", " + this.year;
+    public void addWeeks(int weeks){
+        addDays(weeks*7);
     }
+    
+    public int daysUntil(Date date){
+        int diff = absDate(date) - absDate(this);
+
+        for(int i = 0; i<this.year-date.year; i++){diff+=365;}
+
+        return diff;
+        // returns negative shift if the second date is before the first
+    }
+
+    public int getDay(){
+        return this.day;
+    }
+    public int getMonth(){
+        return this.month;
+    }
+    public int getYear(){
+        return this.year;
+    }
+    public boolean isLeapYear(){
+        boolean leapyear = yearlen(this.year)==366?true:false;
+        return leapyear;
+    }
+
+    public String toString(){
+        String days = (this.day>10)?"" + this.day:"0"+this.day;
+        String months = (this.month>10)?"" + this.month:"0"+this.month;
+        return this.year + "/" + months + "/" + days;
+    }
+
 }
