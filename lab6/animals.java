@@ -5,9 +5,7 @@ import java.util.ArrayList;
 // I am familiar with so decided to use it for this assignment. The program has a tool to export a script as an 
 // executable but in my experience it rarely works.  It is submited in the dropbox with the source code. If it does not work, 
 // you can donwload Processing 3.5.4 from processing.org/download
-// and run the code on your own computer if you feel it necessary.
-// sidenote, I think processing is an amazingly intuitive way to implement animation/interfaces for python or java,
-// and I would reccomend it for use in other classes.
+// and run the code on your own computer.
 
 Random random = new Random();
 
@@ -50,55 +48,68 @@ void setup() {
 
 public class animal {
   PVector pos;
-  PVector vel;
-  PVector acc;
+  PVector vel = new PVector(0, 0);
+  PVector acc = new PVector(0, 0);
   float size;
-  int hunger = 0;
   int strength;
   int speed;
   color marker;
-  int energy = 0;
-
+  int energy = 1000;
+  int age = 0;
+  int lastMate = 0;
+  int calories;
+  
 
   public animal(float posx, float posy) {
     this.pos = new PVector(posx, posy);
-    this.vel = new PVector(0, 0);
-    this.acc = new PVector(0, 0);
     this.size = 5;
     this.strength = 5;
     this.speed = 10;
+    this.calories = 100;    
   }
 
-  void spawn(float posx, float posy){
-    ecosystem.add(new animal(posx, posy));
+  void attemptMate(animal other){
+    boolean a = this.age - this.lastMate > 100 && this.energy > 100;
+    boolean b = other.age - other.lastMate > 100 && other.energy > 100;
+    float dist = dist(this.pos.x, this.pos.y, other.pos.x, other.pos.y);
+    if(a && b && (dist<20)){this.spawn();}
   }
 
+  boolean canEat(animal food){
+      return (this.strength>food.strength)
+  
+  }
+
+  void spawn(){
+    this.energy-=100;
+    this.lastMate = this.age;
+    pool.add(new animal(this.pos.x, this.pos.y));
+  }
+  
+  void update(){
+      this.move();
+      this.encounter();
+      this.show();
+      this.age ++;
+  }
+
+  void encounter(){
+    if(this.energy>0){
+      for(int i=0; i<ecosystem.size(); i++){
+        animal other = ecosystem.get(i);
+        attemptMate(other);
+        attemptEat(other);
+      }
+    }
+  }
+  
   void show(){
     fill(this.marker);
     ellipse(this.pos.x, this.pos.y, this.size, this.size);
   }
 
-  void encounter(){
-    this.spawn(this.pos.x, this.pos.y);
-    /*
-    if(this.energy>0){
-      for(int i=0; i<ecosystem.size(); i++){
-        if(this.getClass() == ecosystem.get(i).getClass() && this.energy > 100 && ecosystem.get(i).energy > 100){
-           this.spawn(this.pos.x, this.pos.y);
-        }
-      }
-    }
-    */
-  }
-
-  void update(){
-      this.encounter();
-      this.move();
-      this.show();
-  }
-
   void move() {
-    //this.energy--;
+    this.energy--;
     this.acc = PVadd(this.acc, new PVector((random.nextFloat()-.5)/5, (random.nextFloat()-.5)/5));
     this.vel = PVadd(this.vel, this.acc);
     if (this.vel.mag()>this.speed/10.0){
@@ -118,8 +129,10 @@ public class dog extends animal {
     this.marker = color(random.nextInt(150)+50, random.nextInt(30), random.nextInt(150)+100);
   }
 
-  void spawn(float posx, float posy){
-    ecosystem.add(new dog(posx, posy));
+  void spawn(){
+    this.energy-=100;
+    this.lastMate = this.age;
+    pool.add(new dog(this.pos.x, this.pos.y));
   }
 
   void show() {
@@ -141,8 +154,10 @@ public class bird extends animal {
     this.marker = color(random.nextInt(50), random.nextInt(150)+100, random.nextInt(100)+80);
     }
 
-  void spawn(float posx, float posy){
-    ecosystem.add(new bird(posx, posy));
+  void spawn(){
+    this.energy-=100;
+    this.lastMate = this.age;
+    pool.add(new bird(this.pos.x, this.pos.y));
   }
 
   void show() {
@@ -163,8 +178,10 @@ public class tiger extends animal {
     this.marker = color(random.nextInt(100)+150, random.nextInt(140)+90, random.nextInt(90));
   }
 
-  void spawn(float posx, float posy){
-    ecosystem.add(new tiger(posx, posy));
+  void spawn(){
+    this.energy-=100;
+    this.lastMate = this.age;
+    pool.add(new tiger(this.pos.x, this.pos.y));
   }
 
   void show() {
@@ -178,6 +195,7 @@ public class tiger extends animal {
 }
 
 ArrayList<animal> ecosystem = new ArrayList<animal>();
+ArrayList<animal> pool = new ArrayList<animal>();
 
 int i = 0;
 void draw() {
@@ -186,11 +204,13 @@ void draw() {
   System.out.println(i);
   i++;
   
-  for (animal i : ecosystem) {
+  for (animal i : ecosystem){
     if(i instanceof bird){bird j = (bird)i; j.update();}
     if(i instanceof dog){dog j = (dog)i;j.update();}
     if(i instanceof tiger){tiger j = (tiger)i;j.update();}
   }
+  ecosystem.addAll(pool);
+  pool.clear();
 }
 
 
