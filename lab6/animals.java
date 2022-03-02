@@ -32,34 +32,39 @@ public PVector oob(PVector pos){
 
 void setup() {
   background(30);
-  size(1000, 1000);
+  size(1500, 1000);
   noStroke();
+  rectMode(CENTER);
 
+  for (int i = 0; i < 5000; i++) {
+    ecosystem.add(new plant(random.nextInt(width), random.nextInt(height)));
+  }
   for (int i = 0; i < 0; i++) {
     ecosystem.add(new dog(random.nextInt(width), random.nextInt(height)));
   }
-  for (int i = 0; i < 0; i++) {
+  for (int i = 0; i < 100; i++) {
     ecosystem.add(new bird(random.nextInt(width), random.nextInt(height)));
   }
-  for (int i = 0; i < 10; i++) {
+  for (int i = 0; i < 500; i++) {
+    ecosystem.add(new mouse(random.nextInt(width), random.nextInt(height)));
+  }
+  for (int i = 0; i < 0; i++) {
     ecosystem.add(new tiger(random.nextInt(width), random.nextInt(height)));
   }
 }
-
-public class animal {
+class animal{
   PVector pos;
-  PVector vel = new PVector(0, 0);
   PVector acc = new PVector(0, 0);
-  float size;
+  PVector vel = new PVector(0, 0);
   int strength;
+  float size;
+  int calories;
   int speed;
-  color marker;
-  int energy = 1000;
+  int energy = 300;
   int age = 0;
   int lastMate = 0;
-  int calories;
+  color marker;
   
-
   public animal(float posx, float posy) {
     this.pos = new PVector(posx, posy);
     this.size = 5;
@@ -69,47 +74,57 @@ public class animal {
   }
 
   void attemptMate(animal other){
-    boolean a = this.age - this.lastMate > 100 && this.energy > 100;
+    boolean a = this.age - this.lastMate > 60 && this.energy > 100;
     boolean b = other.age - other.lastMate > 100 && other.energy > 100;
-    float dist = dist(this.pos.x, this.pos.y, other.pos.x, other.pos.y);
-    if(a && b && (dist<20)){this.spawn();}
+    boolean c = this.getClass() == other.getClass();
+    if(a && b && c){this.spawn();}
   }
 
-  boolean canEat(animal food){
-      return (this.strength>food.strength)
+  void attemptEat(animal other){
+      if(this.strength>other.strength && other.strength > 0 && this.getClass() != other.getClass()){
+          this.energy += other.calories;
+          this.kill(other);
+      }
   
   }
-
   void spawn(){
-    this.energy-=100;
+    this.energy-=50;
     this.lastMate = this.age;
-    pool.add(new animal(this.pos.x, this.pos.y));
+    newAnimals.add(new animal(this.pos.x, this.pos.y));
   }
-  
+  void kill(animal a){
+    deadAnimals.add(a);
+  }
   void update(){
       this.move();
       this.encounter();
+      //this.healthbar();
       this.show();
       this.age ++;
   }
-
   void encounter(){
-    if(this.energy>0){
       for(int i=0; i<ecosystem.size(); i++){
         animal other = ecosystem.get(i);
-        attemptMate(other);
-        attemptEat(other);
+        if(dist(this.pos.x, this.pos.y, other.pos.x, other.pos.y) < 8 && this!=other){
+          attemptMate(other);
+          attemptEat(other);
       }
     }
   }
-  
   void show(){
     fill(this.marker);
     ellipse(this.pos.x, this.pos.y, this.size, this.size);
   }
-
+  void healthbar(){
+    resetMatrix();
+    fill(0, 250, 150);
+    rect(this.pos.x, this.pos.y-15, this.energy/20, 3);
+  
+  }
   void move() {
     this.energy--;
+    if(this.energy<0){this.kill(this);}
+    
     this.acc = PVadd(this.acc, new PVector((random.nextFloat()-.5)/5, (random.nextFloat()-.5)/5));
     this.vel = PVadd(this.vel, this.acc);
     if (this.vel.mag()>this.speed/10.0){
@@ -120,6 +135,7 @@ public class animal {
   }
 }
 
+
 public class dog extends animal {
   public dog(float posx, float posy) {
     super(posx, posy);
@@ -127,12 +143,13 @@ public class dog extends animal {
     this.strength = 7;
     this.speed = 10;
     this.marker = color(random.nextInt(150)+50, random.nextInt(30), random.nextInt(150)+100);
+    this.calories = 500;
   }
 
   void spawn(){
-    this.energy-=100;
+    this.energy-=50;
     this.lastMate = this.age;
-    pool.add(new dog(this.pos.x, this.pos.y));
+    newAnimals.add(new dog(this.pos.x, this.pos.y));
   }
 
   void show() {
@@ -145,6 +162,7 @@ public class dog extends animal {
   }
 }
 
+
 public class bird extends animal {
   public bird(float posx, float posy) {
     super(posx, posy);
@@ -155,9 +173,9 @@ public class bird extends animal {
     }
 
   void spawn(){
-    this.energy-=100;
+    this.energy-=50;
     this.lastMate = this.age;
-    pool.add(new bird(this.pos.x, this.pos.y));
+    newAnimals.add(new bird(this.pos.x, this.pos.y));
   }
 
   void show() {
@@ -172,16 +190,17 @@ public class bird extends animal {
 public class tiger extends animal {
   public tiger(float posx, float posy) {
     super(posx, posy);
-    this.size = 20;
+    this.size = 25;
     this.strength = 30;
     this.speed = 30;
     this.marker = color(random.nextInt(100)+150, random.nextInt(140)+90, random.nextInt(90));
+    this.calories = 300;
   }
 
   void spawn(){
-    this.energy-=100;
+    this.energy-=50;
     this.lastMate = this.age;
-    pool.add(new tiger(this.pos.x, this.pos.y));
+    newAnimals.add(new tiger(this.pos.x, this.pos.y));
   }
 
   void show() {
@@ -194,8 +213,65 @@ public class tiger extends animal {
   }
 }
 
+public class mouse extends animal {
+  public mouse(float posx, float posy) {
+    super(posx, posy);
+    this.size = 6;
+    this.strength = 1;
+    this.speed = 25;
+    this.marker = color(random.nextInt(150)+100, random.nextInt(50), random.nextInt(50));
+    this.calories = 100;
+    this.energy = 80;
+  }
+
+  void spawn(){
+    this.energy-=50;
+    this.lastMate = this.age;
+    newAnimals.add(new mouse(this.pos.x, this.pos.y));
+  }
+
+  void attemptEat(animal other){
+      if(this.strength>other.strength && this.getClass() != other.getClass()){
+          this.energy += other.calories;
+          this.kill(other);
+      }
+  }
+  void show() {
+    resetMatrix();
+    fill(this.marker);
+    translate(this.pos.x, this.pos.y);
+    rotate(this.vel.heading()-PI/2);
+    ellipse(0, 0, this.size/2, this.size);
+  }
+}
+
+public class plant extends animal {
+  public plant(float posx, float posy) {
+    super(posx, posy);
+    this.size = 3;
+    this.strength = -1;
+    this.speed = 0;
+    this.marker = color(random.nextInt(50), random.nextInt(130)+120, random.nextInt(30));
+    this.calories = 30;
+  }
+
+  void spawn(){
+    this.energy-=50;
+    this.lastMate = this.age;
+    newAnimals.add(new dog(this.pos.x, this.pos.y));
+  }
+  void show() {
+    resetMatrix();
+    fill(this.marker);
+    translate(this.pos.x, this.pos.y);
+    rotate(this.vel.heading()-PI/2);
+    ellipse(0, 0, this.size, this.size);
+  }
+}
+
 ArrayList<animal> ecosystem = new ArrayList<animal>();
-ArrayList<animal> pool = new ArrayList<animal>();
+ArrayList<animal> newAnimals = new ArrayList<animal>();
+ArrayList<animal> deadAnimals = new ArrayList<animal>();
 
 int i = 0;
 void draw() {
@@ -204,16 +280,22 @@ void draw() {
   System.out.println(i);
   i++;
   
+  for(int i = 0; i<10; i++){
+    ecosystem.add(new plant(random.nextInt(width), random.nextInt(height)));
+  }
   for (animal i : ecosystem){
     if(i instanceof bird){bird j = (bird)i; j.update();}
+    if(i instanceof mouse){mouse j = (mouse)i; j.update();}
+    if(i instanceof plant){plant j = (plant)i; j.show();}
     if(i instanceof dog){dog j = (dog)i;j.update();}
     if(i instanceof tiger){tiger j = (tiger)i;j.update();}
   }
-  ecosystem.addAll(pool);
-  pool.clear();
+
+  ecosystem.addAll(newAnimals);
+  ecosystem.removeAll(deadAnimals);
+  newAnimals.clear();
+  deadAnimals.clear();
 }
-
-
 
 
 
