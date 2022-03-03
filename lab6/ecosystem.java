@@ -2,13 +2,24 @@ import java.util.Random;
 import java.util.ArrayList;
 
 // This code was written to run inside of a visual/animation IDE/library for Java called Processing which
-// I am familiar with so decided to use it for this assignment. The program has a tool to export a script as an 
-// executable but in my experience it rarely works.  It is submited in the dropbox with the source code. If it does not work, 
-// you can donwload Processing 3.5.4 from processing.org/download
-// and run the code on your own computer.
+// I am familiar with so decided to use it to make the classes and simulation from scratch. In the dropbox I have
+// included a zipped file including an executable version of this program, but it often does not work. 
+// If it doesnt, you can download Processing 3.5.4 from processing.org/download and run this code on your 
+// own computer from there if you need to.
+
+// Program description: This is a simple ecosystem simulator which uses 5 types of organisms which interact 
+// with eachother. There are, in descneding order of size; tigers, dogs, birds, mice, and plants. 
+// All of the animals are constantly losing energy while they move randomly around the area. When they meen an
+// animal who is not the same type as them, and their strength is lower then its own strength value, 
+// the stronger animal eats the weaker, gaining energy. When an animal encounters another of the same
+// species, if they both have enough energy, they will use energy and create offspring. An animal will
+// eat anything of lower strength, with the exception of plants, which can only be eaten by mice.
+// There are many values to tweak for different ecological outcomes. At the moment the most common scenarios
+// is that everybody but the mice dies out and the mice come to a steady population, or one of the predator
+// species explodes to infinity and your CPU overheats.
+
 
 Random random = new Random();
-
 
 public static PVector PVadd(PVector a, PVector b) {
   return new PVector(a.x+b.x, a.y+b.y);
@@ -32,23 +43,23 @@ public PVector oob(PVector pos){
 
 void setup() {
   background(30);
-  size(1500, 1000);
+  size(800, 800);
   noStroke();
   rectMode(CENTER);
 
   for (int i = 0; i < 5000; i++) {
     ecosystem.add(new plant(random.nextInt(width), random.nextInt(height)));
   }
-  for (int i = 0; i < 0; i++) {
+  for (int i = 0; i < 10; i++) {
     ecosystem.add(new dog(random.nextInt(width), random.nextInt(height)));
   }
-  for (int i = 0; i < 100; i++) {
+  for (int i = 0; i < 20; i++) {
     ecosystem.add(new bird(random.nextInt(width), random.nextInt(height)));
   }
   for (int i = 0; i < 500; i++) {
     ecosystem.add(new mouse(random.nextInt(width), random.nextInt(height)));
   }
-  for (int i = 0; i < 0; i++) {
+  for (int i = 0; i < 2; i++) {
     ecosystem.add(new tiger(random.nextInt(width), random.nextInt(height)));
   }
 }
@@ -223,12 +234,14 @@ public class mouse extends animal {
     this.speed = 25;
     this.marker = color(random.nextInt(150)+100, random.nextInt(50), random.nextInt(50));
     this.calories = 100;
-    this.energy = 80;
+    this.energy = 60;
   }
 
   void spawn(){
     this.energy-=50;
     this.lastMate = this.age;
+    newAnimals.add(new mouse(this.pos.x, this.pos.y));
+    newAnimals.add(new mouse(this.pos.x, this.pos.y));
     newAnimals.add(new mouse(this.pos.x, this.pos.y));
   }
 
@@ -286,9 +299,9 @@ void draw() {
     ecosystem.add(new plant(random.nextInt(width), random.nextInt(height)));
   }
   for (animal i : ecosystem){
+    if(i instanceof plant){plant j = (plant)i; j.show();}
     if(i instanceof bird){bird j = (bird)i; j.update();}
     if(i instanceof mouse){mouse j = (mouse)i; j.update();}
-    if(i instanceof plant){plant j = (plant)i; j.show();}
     if(i instanceof dog){dog j = (dog)i;j.update();}
     if(i instanceof tiger){tiger j = (tiger)i;j.update();}
   }
@@ -298,40 +311,3 @@ void draw() {
   newAnimals.clear();
   deadAnimals.clear();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
