@@ -77,11 +77,13 @@ class animal{
     boolean a = this.age - this.lastMate > 60 && this.energy > 100;
     boolean b = other.age - other.lastMate > 100 && other.energy > 100;
     boolean c = this.getClass() == other.getClass();
-    if(a && b && c){this.spawn();}
+    boolean d = dist(this.pos.x, this.pos.y, other.pos.x, other.pos.y) < 10;
+    if(a && b && c && d){this.spawn();}
   }
 
   void attemptEat(animal other){
-      if(this.strength>other.strength && other.strength > 0 && this.getClass() != other.getClass()){
+      boolean d = dist(this.pos.x, this.pos.y, other.pos.x, other.pos.y) < 8;
+      if(d && this.strength>other.strength && other.strength > 0 && this.getClass() != other.getClass()){
           this.energy += other.calories;
           this.kill(other);
       }
@@ -105,7 +107,7 @@ class animal{
   void encounter(){
       for(int i=0; i<ecosystem.size(); i++){
         animal other = ecosystem.get(i);
-        if(dist(this.pos.x, this.pos.y, other.pos.x, other.pos.y) < 8 && this!=other){
+        if(dist(this.pos.x, this.pos.y, other.pos.x, other.pos.y) < 10 && this!=other){
           attemptMate(other);
           attemptEat(other);
       }
