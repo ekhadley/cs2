@@ -2,8 +2,6 @@ package lab5;
 
 import java.math.*;
 
-import javax.swing.plaf.TreeUI;
-
 public class Date {
     int year;
     int month;

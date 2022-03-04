@@ -3,10 +3,24 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Launch abc",
+            "name": "Launch part4",
             "request": "launch",
-            "mainClass": "abc",
-            "projectName": "cs2_d4b8cf7a"
+            "mainClass": "lab6.part4.part4",
+            "projectName": "wgmnjava_e83feeb0"
+        },
+        {
+            "type": "java",
+            "name": "Launch part3",
+            "request": "launch",
+            "mainClass": "lab6.part3.part3",
+            "projectName": "wgmnjava_e83feeb0"
+        },
+        {
+            "type": "java",
+            "name": "Launch part2",
+            "request": "launch",
+            "mainClass": "lab6.part2.part2",
+            "projectName": "wgmnjava_e83feeb0"
         },
         {
             "type": "java",
