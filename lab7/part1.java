@@ -14,7 +14,9 @@ public class part1 {
     public static void main(String[] args){
         ArrayList<Integer> l1 = new ArrayList<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 354));
         ArrayList<Integer> l2 = new ArrayList<Integer>(Arrays.asList(4, 2, 54, 7, 5, 8, 9, 99, 23));
-        ArrayList<Integer> l3 = new ArrayList<Integer>(Arrays.asList(0, 1, 1, 1, 0, 0, 0, 1, 1, 1));
+        ArrayList<Integer> l3 = new ArrayList<Integer>(Arrays.asList(0, 1, 1, 2, 0, 0, 0, 1, 1, 1));
         System.out.println(filterRange(l1, 3, 8));
+        System.out.println(filterRange(l2, 0, 50));
+        System.out.println(filterRange(l3, -1, 1));
     }
 }
