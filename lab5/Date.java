@@ -59,7 +59,7 @@ public class Date {
     public int daysUntil(Date date){
         int diff = absDate(date) - absDate(this);
 
-        for(int i = 0; i<this.year-date.year; i++){diff+=365;}
+        diff += (this.year-date.year)*365;
 
         return diff;
         // returns negative shift if the second date is before the first
