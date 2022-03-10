@@ -3,6 +3,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch part3",
+            "request": "launch",
+            "mainClass": "lab7.part3",
+            "projectName": "cs2_d4b8cf7a"
+        },
+        {
+            "type": "java",
+            "name": "Launch part2",
+            "request": "launch",
+            "mainClass": "lab7.part2",
+            "projectName": "cs2_d4b8cf7a"
+        },
+        {
+            "type": "java",
             "name": "Launch part2",
             "request": "launch",
             "mainClass": "lab7.part2",
