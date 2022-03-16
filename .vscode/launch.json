@@ -3,6 +3,62 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch part7",
+            "request": "launch",
+            "mainClass": "lab8.part7",
+            "projectName": "wgmnjava_e83feeb0"
+        },
+        {
+            "type": "java",
+            "name": "Launch part6",
+            "request": "launch",
+            "mainClass": "lab8.part6",
+            "projectName": "wgmnjava_e83feeb0"
+        },
+        {
+            "type": "java",
+            "name": "Launch part5",
+            "request": "launch",
+            "mainClass": "lab8.part5",
+            "projectName": "wgmnjava_e83feeb0"
+        },
+        {
+            "type": "java",
+            "name": "Launch part4",
+            "request": "launch",
+            "mainClass": "lab8.part4",
+            "projectName": "wgmnjava_e83feeb0"
+        },
+        {
+            "type": "java",
+            "name": "Launch part3",
+            "request": "launch",
+            "mainClass": "lab8.part3",
+            "projectName": "wgmnjava_e83feeb0"
+        },
+        {
+            "type": "java",
+            "name": "Launch part2",
+            "request": "launch",
+            "mainClass": "lab8.part2",
+            "projectName": "wgmnjava_e83feeb0"
+        },
+        {
+            "type": "java",
+            "name": "Launch part1",
+            "request": "launch",
+            "mainClass": "lab8.part1",
+            "projectName": "wgmnjava_e83feeb0"
+        },
+        {
+            "type": "java",
+            "name": "Launch part3",
+            "request": "launch",
+            "mainClass": "lab7.part3",
+            "projectName": "wgmnjava_e83feeb0"
+        },
+        {
+            "type": "java",
             "name": "Launch part3",
             "request": "launch",
             "mainClass": "lab7.part3",
