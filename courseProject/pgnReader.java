@@ -1,4 +1,8 @@
 import java.util.*;
+import java.io.*;
+
+String[] g;
+String game = "";
 
 void setup(){
     size(800, 800);
@@ -7,6 +11,13 @@ void setup(){
     imageMode(CENTER);
 
     p = loadImage("pieces.png");
+  
+    g = loadStrings("game1.txt");
+    for(String i : g){
+      game += i;
+    }
+    game.split("");
+    System.out.println(game);
     tile();
 }
   
@@ -53,7 +64,7 @@ class bishop{
     this.pos = new PVector(c, r);
   }
   public boolean canMove(PVector d){
-    if(this.pos.x-d.x == this.pos.y-)
+    return true;
   }
 }
 
@@ -67,33 +78,3 @@ void draw(){
  
   image(p, 400, 400);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
