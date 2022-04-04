@@ -52,21 +52,20 @@ void setup() {
   moves = moveString.split("\\d\\. |\\d\\d\\. ");
   for (String i : moves)System.out.println(i);
   
-  pcs.add(new king(4, 4, false));
+  //pcs.add(new king(4, 4, false));
   r = new rook(4, 6, true);
   pcs.add(r);
   
   tile();
+  
+  fill(200, 30, 150);
   for(int i = 1; i<=8; i++){
     for(int j = 1; j<=8; j++){
-      if(occupied(new PVector(i, j)));
-      if(r.canMove(new PVector(i, j))){
-        fill(200, 30, 150);
-        System.out.println(i + ", " + j);
-        ellipse((i-1)*100 + 50, (8-j)*100 + 50, 10, 10);
-      }  
+      if(occupied(new PVector(i, j)))ellipse((i-1)*100 + 50, (8-j)*100 + 50, 10, 10);
     }
   }
+  
+  
   
 }
 
@@ -151,15 +150,17 @@ class rook extends piece{
   }
   
   public boolean canMove(PVector a) {
+    System.out.println(a);
     if(this.pos.x == a.x){
-      for(float i = min(this.pos.x, a.x); i <= max(this.pos.x, a.x); i++){
-        if(occupied(new PVector(this.pos.x, i)))return false;
+      for(float y = min(this.pos.y, a.y); y <= max(this.pos.y, a.y); y++){
+        //System.out.println((""+ this.pos.y +", "+ a.y));
+        if(occupied(new PVector(this.pos.x, y)))return false;
       }
     return true;
     }
     if(this.pos.y == a.y){
-      for(float i = min(this.pos.y, a.y); i <= max(this.pos.y, a.y); i++){
-        if(occupied(new PVector(i, this.pos.y)))return false;
+      for(float x = min(this.pos.x, a.x); x <= max(this.pos.x, a.x); x++){
+        if(occupied(new PVector(x, this.pos.y)))return false;
       }
     return true;
     }
