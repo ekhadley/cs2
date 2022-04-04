@@ -19,7 +19,7 @@ PImage bBishop;
 PImage bKnight;
 PImage bPawn;
 
-rook r;
+bishop b;
 
 void setup() {
   size(800, 800);
@@ -52,16 +52,20 @@ void setup() {
   moves = moveString.split("\\d\\. |\\d\\d\\. ");
   for (String i : moves)System.out.println(i);
   
-  //pcs.add(new king(4, 4, false));
-  r = new rook(4, 6, true);
-  pcs.add(r);
+  pcs.add(new king(4, 4, false));
+  pcs.add(new rook(4, 6, true));
+  b = new bishop(6, 4, false);
+  b.show();
   
   tile();
   
   fill(200, 30, 150);
   for(int i = 1; i<=8; i++){
     for(int j = 1; j<=8; j++){
-      if(occupied(new PVector(i, j)))ellipse((i-1)*100 + 50, (8-j)*100 + 50, 10, 10);
+      if(b.canMove(new PVector(i, j))){
+        ellipse((i-1)*100 + 50, (8-j)*100 + 50, 10, 10);
+        System.out.println(i + ", " + j);
+      }
     }
   }
   
@@ -84,6 +88,16 @@ public boolean occupied(PVector a){
     if(p.pos.x == a.x && p.pos.y == a.y)return true;
   }
   return false;
+}
+public boolean occupied(PVector a, PVector ignore){
+  for(piece p : pcs){
+    if((p.pos.x == a.x && p.pos.y == a.y) && !match(a, ignore))return true;
+  }
+  return false;
+}
+
+public boolean match(PVector a, PVector b){
+  return ((a.x==b.x) && (a.y==b.y));
 }
 
 public PVector rowCol(String place) {
@@ -150,22 +164,49 @@ class rook extends piece{
   }
   
   public boolean canMove(PVector a) {
-    System.out.println(a);
     if(this.pos.x == a.x){
       for(float y = min(this.pos.y, a.y); y <= max(this.pos.y, a.y); y++){
-        //System.out.println((""+ this.pos.y +", "+ a.y));
-        if(occupied(new PVector(this.pos.x, y)))return false;
+        if(occupied(new PVector(this.pos.x, y), this.pos))return false;
       }
     return true;
     }
     if(this.pos.y == a.y){
       for(float x = min(this.pos.x, a.x); x <= max(this.pos.x, a.x); x++){
-        if(occupied(new PVector(x, this.pos.y)))return false;
+        if(occupied(new PVector(x, this.pos.y), this.pos))return false;
       }
     return true;
     }
     return false;
 }
+  public void show(){
+    image(selfie, (this.pos.x-1)*(width/8) + width/16, (8-this.pos.y)*(height/8) + height/16); 
+  }
+}
+class bishop extends piece{
+  public bishop(int c, int r, boolean white){
+    super(c, r, white);
+    if(this.white)this.selfie = wBishop;
+    else{this.selfie = bBishop;}
+    selfie.resize(width/10, width/9);
+  }
+  
+  public boolean canMove(PVector a) {
+      if(this.pos.x-a.x==this.pos.y-a.y){
+        for(float y = min(this.pos.y, a.y); y <= max(this.pos.y, a.y); y++){
+          if(occupied(new PVector(this.pos.x, y), this.pos))return false;
+        }
+      return true;
+      }
+      if(this.pos.x-a.x==-(this.pos.y-a.y)){
+        for(float x = min(this.pos.x, a.x); x <= max(this.pos.x, a.x); x++){
+          if(occupied(new PVector(x, this.pos.y), this.pos))return false;
+        }
+      return true;
+      }
+    
+    return false;
+    }
+    
   public void show(){
     image(selfie, (this.pos.x-1)*(width/8) + width/16, (8-this.pos.y)*(height/8) + height/16); 
   }
@@ -180,7 +221,7 @@ void draw() {
     if(i instanceof rook){rook j = (rook)i; j.show();}
     if(i instanceof king){king j = (king)i; j.show();}
     if(i instanceof knight){knight j = (knight)i; j.show();}
-    //if(i instanceof queen){queen j = (queen)i; j.show();}
+    //if(i instanceof bishop){bishop j = (bishop)i; j.show();}
   }
 }
 
