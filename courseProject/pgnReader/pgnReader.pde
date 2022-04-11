@@ -6,6 +6,7 @@ ArrayList<piece> pcs = new ArrayList<piece>();
 String[] moveArray;
 String[] moves;
 String moveString;
+int place;
 
 PImage wKing;
 PImage wRook;
@@ -26,6 +27,7 @@ void setup() {
   noStroke();
   imageMode(CENTER);
 
+  // load the sprites for each piece
   wKing = loadImage("wKing.png");
   wRook = loadImage("wRook.png");
   wQueen = loadImage("wQueen.png");
@@ -39,18 +41,27 @@ void setup() {
   bPawn = loadImage("bPawn.png");
   bKnight = loadImage("bKnight.png");
 
-  moveArray = loadStrings("game.txt");
-  
-  moveString = "";
-  for (String i : moveArray) {
-    moveString += i;
-    
-  }
 
-  moveString.replace("\n", " ");
-  moves = moveString.split("\\d\\. |\\d\\d\\. ");
-  for (String i : moves)System.out.println(i);
+  // read and clean pgn file as text into an array of individual moves for black and white
+  moveArray = loadStrings("game.txt");
+  moveString = "";
+  for (String i : moveArray) if(i!="")moveString += i + " ";
+  moveString = moveString.substring(0, moveString.indexOf("{")) + moveString.substring(moveString.indexOf("}")+1, moveString.length());
+  moveString.replace("\n", "");
+  moves = moveString.replaceFirst("\\d\\. ", "").split("\\d\\. |\\d\\d\\. ");
   
+  
+  // identify the type of and apply each move to the piece, and store previous position for each piece, for the entire game 
+  int k = 0;
+  for (String move : moves){
+    System.out.println(k + ":" + move);
+    k++;
+    applyMove(move.split(" ")[0], true);
+    applyMove(move.split(" ")[1], false);
+  }
+ 
+  
+  // Add all the pieces in standard starting configuration
   for(int i = 0; i<9; i++){
     pcs.add(new pawn(i+1, 2, true));
     pcs.add(new pawn(i+1, 7, false));
@@ -67,7 +78,8 @@ void setup() {
   pcs.add(new queen(4, 1, true));
   pcs.add(new king(5, 8, false));
   pcs.add(new queen(4, 8, false));
-  tile();
+
+  System.out.println(pcs.get(0).history);
 
   /*
   fill(30, 230, 150);
@@ -82,9 +94,45 @@ void setup() {
   */
 }
 
+boolean keyPrev;
 
-void draw() {
+void draw(){
   tile();
 
-  display(pcs);
+
+  // detect when a key is released and if it was the left or right arrow key, increment move accordingly
+  if(keyPrev && !keyPressed && keyCode==39)place ++;
+  if(keyPrev && !keyPressed && keyCode==37)place --;
+  keyPrev = keyPressed;
+  
+  
+  // Show the pieces according to 
+  //System.out.println(place + ", " + keyCode);
+  display(pcs, place);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
