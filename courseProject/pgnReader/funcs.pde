@@ -11,6 +11,8 @@ void tile() {
 
 
 public void applyMove(String move, boolean white){
+  String[] ma = move.split("");
+  
   if(move.matches("[a-z]\\d")){
     for(piece x : pcs){
       if(x instanceof pawn){
@@ -24,23 +26,31 @@ public void applyMove(String move, boolean white){
   }
 
   else if(move.matches("[a-z]x[a-z]\\d")){
-    String[] ma = move.split("");
     for(piece x : pcs){
-      if(match(x.pos, rowCol(ma[1]+ma[2]))){
+      if(match(x.pos, rowCol(ma[2]+ma[3]))){
         x.pos = new PVector(100, 100);
       }
       if(x instanceof pawn){
         pawn p = (pawn)x;
         if(p.pos.x == rowCol(ma[0]).x){
-          p.pos = rowCol(ma[1]+ma[2]);
+          p.pos = rowCol(ma[2]+ma[3]);
+        }
+      }
+    }
+  }
+  
+  else if(move.matches("N[a-z]\\d")){
+    for(piece x : pcs){
+      if(x instanceof knight){
+        knight n = (knight)x;
+        if(n.canMove(rowCol(ma[1] + ma[2]))){
+          n.pos = rowCol(ma[1] + ma[2]);
         }
       }
     }
   }
 
   else System.out.println("format not recognized: " + move);
-  
-  for(piece x : pcs)x.history.add(x.pos.copy());
 }
 
 
