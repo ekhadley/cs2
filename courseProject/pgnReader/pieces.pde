@@ -18,8 +18,7 @@ class piece {
     return true;
   }
   
-  public void showMoves(int place){
-    System.out.println("???");
+  public void showMoves(){
     fill(30, 230, 150);
     for(int i = 1; i<=8; i++){
        for(int j = 1; j<=8; j++){
@@ -71,13 +70,13 @@ class rook extends piece {
   public boolean canMove(PVector a) {
     if (this.pos.x == a.x) {
       for (float y = min(this.pos.y, a.y); y <= max(this.pos.y, a.y); y++) {
-        if (occupied(new PVector(this.pos.x, y), this.pos))return false;
+        if (occupied(new PVector(this.pos.x, y), this.pos, a))return false;
       }
       return true;
     }
     if (this.pos.y == a.y) {
       for (float x = min(this.pos.x, a.x); x <= max(this.pos.x, a.x); x++) {
-        if (occupied(new PVector(x, this.pos.y), this.pos))return false;
+        if (occupied(new PVector(x, this.pos.y), this.pos, a))return false;
       }
       return true;
     }
@@ -98,13 +97,13 @@ class bishop extends piece {
     if(match(this.pos, a))return false;
     if (this.pos.x-a.x==this.pos.y-a.y) {
       for (float y = min(this.pos.y, a.y); y <= max(this.pos.y, a.y); y++) {
-        if (occupied(new PVector(this.pos.x+(y-this.pos.y), y), this.pos))return false;
+        if (occupied(new PVector(this.pos.x+(y-this.pos.y), y), this.pos, a))return false;
       }
       return true;
     }
     if (this.pos.x-a.x==-(this.pos.y-a.y)) {
       for (float x = min(this.pos.x, a.x); x <= max(this.pos.x, a.x); x++) {
-        if (occupied(new PVector(x, this.pos.y-(x-this.pos.x)), this.pos))return false;
+        if (occupied(new PVector(x, this.pos.y-(x-this.pos.x)), this.pos, a))return false;
       }
       return true;
     }
@@ -126,25 +125,25 @@ class queen extends piece {
   public boolean canMove(PVector a) {
     if (this.pos.x == a.x) {
       for (float y = min(this.pos.y, a.y); y <= max(this.pos.y, a.y); y++) {
-        if (occupied(new PVector(this.pos.x, y), this.pos))return false;
+        if (occupied(new PVector(this.pos.x, y), this.pos, a))return false;
       }
       return true;
     }
     if (this.pos.y == a.y) {
       for (float x = min(this.pos.x, a.x); x <= max(this.pos.x, a.x); x++) {
-        if (occupied(new PVector(x, this.pos.y), this.pos))return false;
+        if (occupied(new PVector(x, this.pos.y), this.pos, a))return false;
       }
       return true;
     }
     if (this.pos.x-a.x==this.pos.y-a.y) {
       for (float y = min(this.pos.y, a.y); y <= max(this.pos.y, a.y); y++) {
-        if (occupied(new PVector(this.pos.x+(y-this.pos.y), y), this.pos))return false;
+        if (occupied(new PVector(this.pos.x+(y-this.pos.y), y), this.pos, a))return false;
       }
       return true;
     }
     if (this.pos.x-a.x==-(this.pos.y-a.y)) {
       for (float x = min(this.pos.x, a.x); x <= max(this.pos.x, a.x); x++) {
-        if (occupied(new PVector(x, this.pos.y-(x-this.pos.x)), this.pos))return false;
+        if (occupied(new PVector(x, this.pos.y-(x-this.pos.x)), this.pos, a))return false;
       }
       return true;
     }

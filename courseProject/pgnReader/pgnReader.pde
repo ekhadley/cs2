@@ -7,7 +7,6 @@ String[] moveArray;
 String[] moves;
 String moveString;
 int place;
-bishop p;
 
 PImage wKing;
 PImage wRook;
@@ -44,12 +43,13 @@ void setup() {
 
 
   // read and clean pgn file as text into an array of individual moves for black and white
-  moveArray = loadStrings("game1.txt");
+  moveArray = loadStrings("game2.txt");
   moveString = "";
   for (String i : moveArray)moveString += i + " ";
-  moveString = moveString.substring(0, moveString.indexOf("{")) + moveString.substring(moveString.indexOf("}")+1, moveString.length());
+  if(moveString.contains("{"))moveString = moveString.substring(0, moveString.indexOf("{")) + 
+                                           moveString.substring(moveString.indexOf("}")+1, moveString.length());
   moveString.replace("\n", "");
-  moves = moveString.replaceFirst("\\d\\. ", "").split("\\d\\. |\\d\\d\\. ");
+  moves = moveString.replaceFirst("\\d\\. |\\d\\.", "").split("\\d\\. |\\d\\d\\. |\\d\\.");
 
 
 
@@ -82,7 +82,6 @@ void setup() {
     
   }
  
-  p = (bishop)pcs.get(6);
 }
 
 boolean keyPrev;
@@ -96,11 +95,11 @@ void draw() {
     x.pos = x.history.get(place);
     x.show(place);
   }
-  p.showMoves(7);
   
   // detect when a key is released and if it was the left or right arrow key; increment move accordingly
-  if (keyPrev && !keyPressed && keyCode==39 && place < moves.length)place ++;
+  if (keyPrev && !keyPressed && keyCode==39 && place < moves.length*2)place ++;
   if (keyPrev && !keyPressed && keyCode==37 && place > 0 )place --;
+
   keyPrev = keyPressed;
 }
 

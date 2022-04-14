@@ -38,7 +38,7 @@ public void applyMove(String move, boolean white){
   
   else if(move.matches("[a-h][1-8]")){
     for(piece x : pcs){
-      if(x instanceof pawn){
+      if(x instanceof pawn && x.white == white){
         pawn p = (pawn)x;
         if(p.canMove(rowCol(move)) && (p.white == white)){
           p.pos = rowCol(move);
@@ -53,7 +53,7 @@ public void applyMove(String move, boolean white){
       if(match(x.pos, rowCol(ma[2]+ma[3]))){
         x.pos = new PVector(100, 100);
       }
-      if(x instanceof pawn){
+      if(x instanceof pawn && x.white == white){
         pawn p = (pawn)x;
         if(p.pos.x == rowCol(ma[0]).x && p.white==white){
           p.pos = rowCol(ma[2]+ma[3]);
@@ -67,7 +67,7 @@ public void applyMove(String move, boolean white){
     PVector dest = rowCol(ma[1] + ma[2]);
     for(piece x : pcs){
       if(match(x.pos, dest))x.pos = new PVector(10, 10);
-      if(x instanceof knight){
+      if(x instanceof knight && x.white == white){
         knight n = (knight)x;
         if(n.canMove(dest)){
           n.pos = dest.copy();
@@ -81,9 +81,23 @@ public void applyMove(String move, boolean white){
     PVector dest = rowCol(ma[2] + ma[3]);
     for(piece x : pcs){
       if(match(x.pos, dest))x.pos = new PVector(10, 10);
-      if(x instanceof knight){
+      if(x instanceof knight && x.white == white){
         knight n = (knight)x;
         if(n.canMove(dest) && rowCol(ma[1]).x == n.pos.x){
+          n.pos = dest.copy();
+          detected = true;
+        }
+      }
+    }
+  }
+  
+  else if(move.matches("N[1-8][a-h][1-8]")){
+    PVector dest = rowCol(ma[2] + ma[3]);
+    for(piece x : pcs){
+      if(match(x.pos, dest))x.pos = new PVector(10, 10);
+      if(x instanceof knight && x.white == white){
+        knight n = (knight)x;
+        if(n.canMove(dest) && rowCol("a"+ma[1]).y == n.pos.y){
           n.pos = dest.copy();
           detected = true;
         }
@@ -95,7 +109,7 @@ public void applyMove(String move, boolean white){
     PVector dest = rowCol(ma[1] + ma[2]);
     for(piece x : pcs){
       if(match(x.pos, dest))x.pos = new PVector(10, 10);
-      if(x instanceof bishop){
+      if(x instanceof bishop && x.white == white){
         bishop b = (bishop)x;
         if(b.canMove(dest)){
           b.pos = dest.copy();
@@ -109,10 +123,38 @@ public void applyMove(String move, boolean white){
     PVector dest = rowCol(ma[1] + ma[2]);
     for(piece x : pcs){
       if(match(x.pos, dest))x.pos = new PVector(10, 10);
-      if(x instanceof rook){
+      if(x instanceof rook && x.white == white){
         rook r = (rook)x;
         if(r.canMove(dest)){
           r.pos = dest.copy();
+          detected = true;
+        }
+      }
+    }
+  }
+
+  else if(move.matches("R[a-h][a-h][1-8]")){
+    PVector dest = rowCol(ma[2] + ma[3]);
+    for(piece x : pcs){
+      if(match(x.pos, dest))x.pos = new PVector(10, 10);
+      if(x instanceof rook && x.white == white){
+        rook n = (rook)x;
+        if(n.canMove(dest) && rowCol(ma[1]).x == n.pos.x){
+          n.pos = dest.copy();
+          detected = true;
+        }
+      }
+    }
+  }
+
+  else if(move.matches("R[1-8][a-h][1-8]")){
+    PVector dest = rowCol(ma[2] + ma[3]);
+    for(piece x : pcs){
+      if(match(x.pos, dest))x.pos = new PVector(10, 10);
+      if(x instanceof rook && x.white == white){
+        rook n = (rook)x;
+        if(n.canMove(dest) && rowCol("a"+ma[1]).y == n.pos.y){
+          n.pos = dest.copy();
           detected = true;
         }
       }
@@ -123,7 +165,7 @@ public void applyMove(String move, boolean white){
     PVector dest = rowCol(ma[1] + ma[2]);
     for(piece x : pcs){
       if(match(x.pos, dest))x.pos = new PVector(10, 10);
-      if(x instanceof queen){
+      if(x instanceof queen && x.white == white){
         queen q = (queen)x;
         if(q.canMove(dest)){
           q.pos = dest.copy();
@@ -133,17 +175,47 @@ public void applyMove(String move, boolean white){
     }
   }
 
+  else if(move.matches("Q[a-h][a-h][1-8]")){
+    PVector dest = rowCol(ma[2] + ma[3]);
+    for(piece x : pcs){
+      if(match(x.pos, dest))x.pos = new PVector(10, 10);
+      if(x instanceof queen && x.white == white){
+        queen n = (queen)x;
+        if(n.canMove(dest) && rowCol(ma[1]).x == n.pos.x){
+          n.pos = dest.copy();
+          detected = true;
+        }
+      }
+    }
+  }
+
   else if(move.matches("K[a-h][1-8]")){
     PVector dest = rowCol(ma[1] + ma[2]);
     for(piece x : pcs){
       if(match(x.pos, dest))x.pos = new PVector(10, 10);
-      if(x instanceof king){
+      if(x instanceof king && x.white == white){
         king k = (king)x;
         if(k.canMove(dest)){
           k.pos = dest.copy();
           detected = true;
         }
       }
+    }
+  }
+
+  else if(move.matches("1-0")){
+    for(piece x : pcs){
+      if(!(x instanceof king && x.white))x.pos = new PVector(10, 10);
+    }
+  }
+  else if(move.matches("0-1")){
+    for(piece x : pcs){
+      if(!(x instanceof king && !x.white))x.pos = new PVector(10, 10);
+    }
+  }
+  else if(move.matches("1\2-1\2")){
+    for(piece x : pcs){
+      if(!(x instanceof king))x.pos = new PVector(10, 10);
     }
   }
 
@@ -162,6 +234,13 @@ public boolean occupied(PVector a){
 public boolean occupied(PVector a, PVector ignore){
   for(piece p : pcs){
     if((p.pos.x == a.x && p.pos.y == a.y) && !match(a, ignore))return true;
+  }
+  return false;
+}
+
+public boolean occupied(PVector a, PVector ignore1, PVector ignore2){
+  for(piece p : pcs){
+    if((p.pos.x == a.x && p.pos.y == a.y) && !match(a, ignore1)&& !match(a, ignore2))return true;
   }
   return false;
 }
