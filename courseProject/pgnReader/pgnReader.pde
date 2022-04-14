@@ -7,6 +7,7 @@ String[] moveArray;
 String[] moves;
 String moveString;
 int place;
+bishop p;
 
 PImage wKing;
 PImage wRook;
@@ -43,9 +44,9 @@ void setup() {
 
 
   // read and clean pgn file as text into an array of individual moves for black and white
-  moveArray = loadStrings("game.txt");
+  moveArray = loadStrings("game1.txt");
   moveString = "";
-  for (String i : moveArray) if (i!="")moveString += i + " ";
+  for (String i : moveArray)moveString += i + " ";
   moveString = moveString.substring(0, moveString.indexOf("{")) + moveString.substring(moveString.indexOf("}")+1, moveString.length());
   moveString.replace("\n", "");
   moves = moveString.replaceFirst("\\d\\. ", "").split("\\d\\. |\\d\\d\\. ");
@@ -70,6 +71,7 @@ void setup() {
   pcs.add(new king(5, 8, false));
   pcs.add(new queen(4, 8, false));
 
+
   // identify the type of and apply each move to the piece, and store previous position for each piece, for the entire game 
   int k = 0;
   for (String move : moves) {
@@ -77,23 +79,10 @@ void setup() {
     k++;
     applyMove(move.split(" ")[0], true);
     applyMove(move.split(" ")[1], false);
-    for (piece x : pcs) {
-      x.history.add(x.pos.copy());
-    }
-    System.out.println(pcs.get(18).pos);
+    
   }
-
-  /*
-  fill(30, 230, 150);
-   for(int i = 1; i<=8; i++){
-   for(int j = 1; j<=8; j++){
-   if(q.canMove(new PVector(i, j))){
-   ellipse((i-1)*100 + 50, (8-j)*100 + 50, 30, 30);
-   System.out.println(i + ", " + j);
-   }
-   }
-   }
-   */
+ 
+  p = (bishop)pcs.get(6);
 }
 
 boolean keyPrev;
@@ -102,16 +91,22 @@ void draw() {
   tile();
 
 
-  // detect when a key is released and if it was the left or right arrow key, increment move accordingly
-  if (keyPrev && !keyPressed && keyCode==39 && place < moves.length)place ++;
-  if (keyPrev && !keyPressed && keyCode==37 && place < 0 )place --;
-  keyPrev = keyPressed;
-
-
   // Show the pieces according to the current place in the game
-  //System.out.println(place + ", " + keyCode);
-  display(pcs, place);
+  for(piece x : pcs){
+    x.pos = x.history.get(place);
+    x.show(place);
+  }
+  p.showMoves(7);
+  
+  // detect when a key is released and if it was the left or right arrow key; increment move accordingly
+  if (keyPrev && !keyPressed && keyCode==39 && place < moves.length)place ++;
+  if (keyPrev && !keyPressed && keyCode==37 && place > 0 )place --;
+  keyPrev = keyPressed;
 }
+
+
+
+
 
 
 

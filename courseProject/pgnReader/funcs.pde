@@ -11,60 +11,145 @@ void tile() {
 
 
 public void applyMove(String move, boolean white){
+  boolean detected = false;
+  String original = move;
+  move = move.replace("+", "");
+  if(!move.matches("[a-h]x[a-h][1-8]"))move = move.replace("x", "");
   String[] ma = move.split("");
   
-  if(move.matches("[a-z]\\d")){
+  if(move.matches("O-O")){
+    for(piece x : pcs){
+      if(x instanceof king && x.white==white)x.pos = new PVector(7, x.white?1:8);
+      if(x instanceof rook && x.white==white){
+        if(match(x.pos, new PVector(8, x.white?1:8)))x.pos = new PVector(6,x.white?1:8);
+        detected = true;
+      }
+    }
+  }
+  else if(move.matches("O-O-O")){
+    for(piece x : pcs){
+      if(x instanceof king && x.white==white)x.pos = new PVector(3, x.white?1:8);
+      if(x instanceof rook && x.white==white){
+        if(match(x.pos, new PVector(1, x.white?1:8)))x.pos = new PVector(4,x.white?1:8);
+        detected = true;
+      }
+    }
+  }
+  
+  else if(move.matches("[a-h][1-8]")){
     for(piece x : pcs){
       if(x instanceof pawn){
         pawn p = (pawn)x;
-        if(p.canMove(rowCol(move)) && p.white == white){
+        if(p.canMove(rowCol(move)) && (p.white == white)){
           p.pos = rowCol(move);
-          p.history.add(p.pos.copy());
+          detected = true;
         }
       }
     }
   }
 
-  else if(move.matches("[a-z]x[a-z]\\d")){
+  else if(move.matches("[a-h]x[a-h][1-8]")){
     for(piece x : pcs){
       if(match(x.pos, rowCol(ma[2]+ma[3]))){
         x.pos = new PVector(100, 100);
       }
       if(x instanceof pawn){
         pawn p = (pawn)x;
-        if(p.pos.x == rowCol(ma[0]).x){
+        if(p.pos.x == rowCol(ma[0]).x && p.white==white){
           p.pos = rowCol(ma[2]+ma[3]);
+          detected = true;
         }
       }
     }
   }
   
-  else if(move.matches("N[a-z]\\d")){
+  else if(move.matches("N[a-h][1-8]")){
+    PVector dest = rowCol(ma[1] + ma[2]);
     for(piece x : pcs){
+      if(match(x.pos, dest))x.pos = new PVector(10, 10);
       if(x instanceof knight){
         knight n = (knight)x;
-        if(n.canMove(rowCol(ma[1] + ma[2]))){
-          n.pos = rowCol(ma[1] + ma[2]);
+        if(n.canMove(dest)){
+          n.pos = dest.copy();
+          detected = true;
+        }
+      }
+    }
+  }
+  
+  else if(move.matches("N[a-h][a-h][1-8]")){
+    PVector dest = rowCol(ma[2] + ma[3]);
+    for(piece x : pcs){
+      if(match(x.pos, dest))x.pos = new PVector(10, 10);
+      if(x instanceof knight){
+        knight n = (knight)x;
+        if(n.canMove(dest) && rowCol(ma[1]).x == n.pos.x){
+          n.pos = dest.copy();
+          detected = true;
         }
       }
     }
   }
 
-  else System.out.println("format not recognized: " + move);
-}
-
-
-
-
-public void display(ArrayList<piece> pcs, int place){
-  for(piece i : pcs){
-    if( i instanceof pawn){pawn j = (pawn)i; j.show(place);}
-    if( i instanceof king){king j = (king)i; j.show(place);}
-    if( i instanceof queen){queen j = (queen)i; j.show(place);}
-    if( i instanceof rook){rook j = (rook)i; j.show(place);}
-    if( i instanceof bishop){bishop j = (bishop)i; j.show(place);}
-    if( i instanceof knight){knight j = (knight)i; j.show(place);}
+  else if(move.matches("B[a-h][1-8]")){
+    PVector dest = rowCol(ma[1] + ma[2]);
+    for(piece x : pcs){
+      if(match(x.pos, dest))x.pos = new PVector(10, 10);
+      if(x instanceof bishop){
+        bishop b = (bishop)x;
+        if(b.canMove(dest)){
+          b.pos = dest.copy();
+          detected = true;
+        }
+      }
+    }
   }
+
+  else if(move.matches("R[a-h][1-8]")){
+    PVector dest = rowCol(ma[1] + ma[2]);
+    for(piece x : pcs){
+      if(match(x.pos, dest))x.pos = new PVector(10, 10);
+      if(x instanceof rook){
+        rook r = (rook)x;
+        if(r.canMove(dest)){
+          r.pos = dest.copy();
+          detected = true;
+        }
+      }
+    }
+  }
+
+  else if(move.matches("Q[a-h][1-8]")){
+    PVector dest = rowCol(ma[1] + ma[2]);
+    for(piece x : pcs){
+      if(match(x.pos, dest))x.pos = new PVector(10, 10);
+      if(x instanceof queen){
+        queen q = (queen)x;
+        if(q.canMove(dest)){
+          q.pos = dest.copy();
+          detected = true; 
+        }
+      }
+    }
+  }
+
+  else if(move.matches("K[a-h][1-8]")){
+    PVector dest = rowCol(ma[1] + ma[2]);
+    for(piece x : pcs){
+      if(match(x.pos, dest))x.pos = new PVector(10, 10);
+      if(x instanceof king){
+        king k = (king)x;
+        if(k.canMove(dest)){
+          k.pos = dest.copy();
+          detected = true;
+        }
+      }
+    }
+  }
+
+  else System.out.println("format not recognized: " + original);
+  if(!detected)System.out.println("piece not found");
+  for(piece x : pcs)x.history.add(x.pos.copy());
 }
 
 public boolean occupied(PVector a){
@@ -86,7 +171,7 @@ public boolean match(PVector a, PVector b){
 }
 
 public PVector rowCol(String place) {
-  String[] cols = {"A", "B", "C", "D", "E", "F", "G", "H"};
+  String[] cols = {"a", "b", "c", "d", "e", "f", "g", "h"};
   String[] inp = place.split("");
   int y;
   int x = 0;
