@@ -3,7 +3,7 @@ import java.util.*;
 
 public class part1 {
     public Arraylist<int> collapse(Stack s){
-        ArrayList<int> c = new Arraylist<int>
+        ArrayList<int> c = new Arraylist<int>();
         int n = 0;
         while(s.length>1){
             n += s.peek();
