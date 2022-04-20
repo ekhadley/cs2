@@ -3,7 +3,26 @@
     "configurations": [
         {
             "type": "java",
-<<<<<<< HEAD
+            "name": "Launch part1",
+            "request": "launch",
+            "mainClass": "lab1.part1",
+            "projectName": "cs2_d4b8cf7a"
+        },
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch part1",
+            "request": "launch",
+            "mainClass": "lab11.part1",
+            "projectName": "cs2_d4b8cf7a"
+        },
+        {
+            "type": "java",
             "name": "Launch part7",
             "request": "launch",
             "mainClass": "lab8.part7",
@@ -57,12 +76,6 @@
             "request": "launch",
             "mainClass": "lab7.part3",
             "projectName": "wgmnjava_e83feeb0"
-=======
-            "name": "Launch part4",
-            "request": "launch",
-            "mainClass": "lab7.part4",
-            "projectName": "cs2_d4b8cf7a"
->>>>>>> 928b3b2f6eebf13fb4b36aeb81c8cce20389dfa8
         },
         {
             "type": "java",
