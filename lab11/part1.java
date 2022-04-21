@@ -2,10 +2,13 @@ package lab11;
 import java.util.*;
 
 public class part1 {
-    public Arraylist<int> collapse(Stack s){
-        ArrayList<int> c = new Arraylist<int>();
+    public static ArrayList<Integer> collapse(Stack<Integer> s){
+        ArrayList<Integer> c = new ArrayList<Integer>();
         int n = 0;
-        while(s.length>1){
+        if(s.size()%2 == 1){
+            c.add(s.peek());
+        }
+        while(s.size()>1){
             n += s.peek();
             s.pop();
             n += s.peek();
@@ -13,13 +16,13 @@ public class part1 {
             c.add(0, n);
             n = 0;
         }
-        if(s.length == 1){
-            c.add(0, s.peek())
-        }
+
         return c;
     }
     public static void main(String[] args){
-        Stack<int> s = new Stack<>(Arrays.asList7, 2, 8, 9, 4, 11, 7, 1, 42));
-        System.out.println(Arrays.toString(collapse(s)));
+        Stack<Integer> s = new Stack<Integer>();
+        for(int i=0; i< 11; i++)s.add(i);
+        System.out.println(s.toString());
+        System.out.println(collapse(s).toString());
     }
 }
