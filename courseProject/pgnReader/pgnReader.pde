@@ -22,7 +22,7 @@ PImage bKnight;
 PImage bPawn;
 
 void setup() {
-  size(800, 800);
+  size(400, 400);
   background(#A26A3E);
   noStroke();
   imageMode(CENTER);
@@ -43,11 +43,15 @@ void setup() {
 
 
   // read and clean pgn file as text into an array of individual moves for black and white
-  moveArray = loadStrings("game2.txt");
+  moveArray = loadStrings("game1.txt");
   moveString = "";
-  for (String i : moveArray)moveString += i + " ";
-  if(moveString.contains("{"))moveString = moveString.substring(0, moveString.indexOf("{")) + 
-                                           moveString.substring(moveString.indexOf("}")+1, moveString.length());
+  boolean s = false;
+  for (String i : moveArray){
+    if(i.contains("1."))println(i);
+    if(s)moveString += i + " ";
+  }    
+  if (moveString.contains("{"))moveString = moveString.substring(0, moveString.indexOf("{")) + 
+    moveString.substring(moveString.indexOf("}")+1, moveString.length());
   moveString.replace("\n", "");
   moves = moveString.replaceFirst("\\d\\. |\\d\\.", "").split("\\d\\. |\\d\\d\\. |\\d\\.");
 
@@ -79,9 +83,7 @@ void setup() {
     k++;
     applyMove(move.split(" ")[0], true);
     applyMove(move.split(" ")[1], false);
-    
   }
- 
 }
 
 boolean keyPrev;
@@ -91,11 +93,11 @@ void draw() {
 
 
   // Show the pieces according to the current place in the game
-  for(piece x : pcs){
+  for (piece x : pcs) {
     x.pos = x.history.get(place);
     x.show(place);
   }
-  
+
   // detect when a key is released and if it was the left or right arrow key; increment move accordingly
   if (keyPrev && !keyPressed && keyCode==39 && place < moves.length*2)place ++;
   if (keyPrev && !keyPressed && keyCode==37 && place > 0 )place --;

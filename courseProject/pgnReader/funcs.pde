@@ -10,7 +10,7 @@ void tile() {
 
 
 
-public void applyMove(String move, boolean white){
+public boolean applyMove(String move, boolean white){
   boolean detected = false;
   String original = move;
   move = move.replace("+", "");
@@ -220,8 +220,8 @@ public void applyMove(String move, boolean white){
   }
 
   else System.out.println("format not recognized: " + original);
-  if(!detected)System.out.println("piece not found");
   for(piece x : pcs)x.history.add(x.pos.copy());
+  return detected;
 }
 
 public boolean occupied(PVector a){
