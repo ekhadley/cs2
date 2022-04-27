@@ -5,6 +5,20 @@
             "type": "java",
             "name": "Launch part2",
             "request": "launch",
+            "mainClass": "lab12.part2",
+            "projectName": "cs2_d4b8cf7a"
+        },
+        {
+            "type": "java",
+            "name": "Launch part1",
+            "request": "launch",
+            "mainClass": "lab12.part1",
+            "projectName": "cs2_d4b8cf7a"
+        },
+        {
+            "type": "java",
+            "name": "Launch part2",
+            "request": "launch",
             "mainClass": "lab11.part2",
             "projectName": "cs2_d4b8cf7a"
         },
