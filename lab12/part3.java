@@ -5,7 +5,8 @@ class part3{
         int longest = 1;
         for(int i = 0; i < a.length; i++){
             for(int j = 0; j < a.length-i; j++){
-                if()
+                if(a[i+j] > a[i+j+1])break;
+                if(j>longest)longest = j;
             }
         }
         return longest;
