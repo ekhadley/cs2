@@ -43,13 +43,11 @@ void setup() {
 
 
   // read and clean pgn file as text into an array of individual moves for black and white
-  moveArray = loadStrings("game1.txt");
+  moveArray = loadStrings("game2.txt");
   moveString = "";
   boolean s = false;
-  for (String i : moveArray){
-    if(i.contains("1."))println(i);
-    if(s)moveString += i + " ";
-  }    
+  for (String i : moveArray)moveString += i + " ";
+
   if (moveString.contains("{"))moveString = moveString.substring(0, moveString.indexOf("{")) + 
     moveString.substring(moveString.indexOf("}")+1, moveString.length());
   moveString.replace("\n", "");
